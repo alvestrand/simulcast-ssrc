@@ -2,7 +2,7 @@
 
 This is the working area for the individual Internet-Draft, "Using SSRC with WebRTC Simulcast".
 
-* [Editor's Copy](https://alvestrand.github.io/simulcast-ssrc/#go.draft-alvestrand-simulcast-ssrc.html)
+* [Editor's Copy](https://alvestrand.github.io/simulcast-ssrc/draft-alvestrand-simulcast-ssrc.html)
 * [Individual Draft](https://tools.ietf.org/html/draft-alvestrand-simulcast-ssrc)
 * [Compare Editor's Copy to Individual Draft](https://alvestrand.github.io/simulcast-ssrc/#go.draft-alvestrand-simulcast-ssrc.diff)
 
