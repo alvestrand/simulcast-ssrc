@@ -1,12 +1,12 @@
 ---
-title: TODO - Your title
-abbrev: TODO - Abbreviation
-docname: draft-todo-your-name-here
+title: Using SSRC with WebRTC Simulcast
+abbrev: Simulcast SSRC
+docname: draft-alvestrand-simulcast-ssrc-latest
 category: info
 
 ipr: trust200902
 area: General
-workgroup: TODO Working Group
+workgroup: RTCWEB Working Group
 keyword: Internet-Draft
 
 stand_alone: yes
@@ -14,10 +14,10 @@ pi: [toc, sortrefs, symrefs]
 
 author:
  -
-    ins: "H. Tschofenig"
-    name: "Hannes Tschofenig"
-    organization: "Arm Limited"
-    email: hannes.tschofenig@arm.com
+    ins: "H. Alvestrand"
+    name: "Harald Alvestrand"
+    organization: "Google"
+    email: harald@alvestrand.no
 
 normative:
   RFC2119:
