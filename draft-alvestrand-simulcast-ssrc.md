@@ -71,7 +71,7 @@ when, and only when, they appear in all capitals, as shown here.
 The syntax for representing SSRC information is taken from {{RFC5576}}.
 
 Each media section in the SDP contains one a=ssrc attribute
-per simulcast stream, formatted as `a=ssrc:<ssrc> cname <cname>`. The
+per simulcast stream, formatted as `a=ssrc:<ssrc> cname:<cname>`. The
 cname carries no helpful information, but is required by the "a=ssrc" syntax.
 
 The list of SSRCs used is declared in an attribute with the FID
@@ -92,10 +92,10 @@ a=simulcast:send hi,mid,low
 a=rid:hi
 a=rid:mid
 a=rid:low
-a=ssrc-group:FID:123,456,789
-a=ssrc:123:cname foo
-a=ssrc:456:cname foo
-a=ssrc:789:cname foo
+a=ssrc-group:FID 123 456 789
+a=ssrc:123 cname:foo
+a=ssrc:456 cname:foo
+a=ssrc:789 cname:foo
 ~~~~
 
 # Security Considerations
