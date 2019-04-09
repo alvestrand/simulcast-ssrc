@@ -78,11 +78,48 @@ The list of SSRCs used is declared in an attribute with the FID
 (Flow Identification) semantic, as defined in {{RFC5888}}.
 
 The order of SSRCs in the a=ssrc-group attribute MUST match the order of the
-rid attributes in the corresponding streams in the a=simulcast: attribute.
+rid attributes in the corresponding streams in the "send" part of the
+a=simulcast: attribute.
 
 It is RECOMMENDED that both the a=rid: attributes and the a=ssrc: attributes
 appear in the same order as the order in the a=simulcast and a=ssrc-group
 attributes.
+
+It is RECOMMENDED not to use RTX with this configuration, since the inclusion
+of the required declarations for associating RTX SSRCs with their main SSRCs
+would make the SDP unwieldy and hard to interpret correctly.
+
+# How to request that SSRC information be included
+
+If an SFU wishes to request that a browser send SSRC information, it should
+send an offer containing the line "a=x-please-send-ssrcs", together with a
+line requesting simulcast:
+
+~~~~
+m=video
+a=simulcast:recv a,b,c
+a=x-please-send-ssrcs
+~~~~
+
+The SFU can detect whether the request has been honored by looking for
+a=ssrc attributes in the responding answer.
+
+If a Javascript application wishes to request that the browser generate
+offers containing SSRC, it should include the non-standard attribute
+"showSsrcInSimulcastOffer" in the RTCPeerConnection constructor:
+
+~~~~
+pc = new RTCPeerConnection({showSsrcInSimulcastOffer: true})
+~~~~
+
+It is possible to verify that the request is understood by checking for
+the presence of this attribute in the RTCPeerConnection parameters:
+
+~~~~
+if (showSsrcInSimulcastOffer in pc.getConfiguration) {
+   // the request has been understood correctly
+}
+~~~~
 
 # Example
 
@@ -98,16 +135,31 @@ a=ssrc:456 cname:foo
 a=ssrc:789 cname:foo
 ~~~~
 
+# Sunsetting the interim measure
+
+This specification is intended to give SFU authors time to convert
+to the new mechanism. Since the invocation of this mechanism is explicit,
+it is easy to check on what the usage is, and emit deprecation warnings;
+those should probably be emitted from day 1.
+
+Once enough time has passed, this mechanism can be removed.
+
 # Security Considerations
 
-TODO Security
+This document describes two existing mechanisms: a=simulcast and
+a=ssrc-group. Each of these is defined in an RFC with security considerations.
 
+The only added attack surface here is the ability to create mismatches
+between the two lists of simulcast RTP streams, causing different
+implementations to choose different streams to display. This is a special
+instance of the general rule that "people who can modify your SDP can mess
+things up"; normal precautions when passing SDP around should be adequate.
 
 # IANA Considerations
 
-This document has no IANA actions.
-
-
+This document has no IANA actions. There is especially no request for
+IANA to register the "a=x-please-send-ssrc" attribute, since this temporary
+attribute assignment is designed to go away when the transition period is over.
 
 --- back
 
