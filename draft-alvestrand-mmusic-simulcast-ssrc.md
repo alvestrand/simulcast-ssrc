@@ -124,7 +124,7 @@ It is possible to verify that the request is understood by checking for
 the presence of this attribute in the RTCPeerConnection parameters:
 
 ~~~~
-if (showSsrcInSimulcastOffer in pc.getConfiguration) {
+if ('showSsrcInSimulcastOffer' in pc.getConfiguration()) {
    // the request has been understood correctly
 }
 ~~~~
@@ -201,7 +201,7 @@ may not be needed.
 # Acknowledgments
 {:numbered="false"}
 
-Many thanks to Amit Hilbuch, Adam Roach, Bernard Aboba, Philip Hancke
+Many thanks to Amit Hilbuch, Adam Roach, Bernard Aboba, Philipp Hancke
 and many others who have given input to the design of this mechanism.
 
 
