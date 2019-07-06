@@ -293,16 +293,18 @@ ul.toc li {
 <link href="#rfc.references" rel="Chapter" title="10 References">
 <link href="#rfc.references.1" rel="Chapter" title="10.1 Normative References">
 <link href="#rfc.references.2" rel="Chapter" title="10.2 Informative References">
+<link href="#rfc.change_log" rel="Chapter">
+<link href="#rfc.appendix.A.1" rel="Chapter" title="A.1 Changes from version -00 to -01">
 <link href="#rfc.acknowledgments" rel="Chapter">
 <link href="#rfc.authors" rel="Chapter">
 
 
-  <meta name="generator" content="xml2rfc version 2.22.3 - https://tools.ietf.org/tools/xml2rfc" />
+  <meta name="generator" content="xml2rfc version 2.22.2 - https://tools.ietf.org/tools/xml2rfc" />
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Alvestrand, H." />
   <meta name="dct.identifier" content="urn:ietf:id:draft-alvestrand-mmusic-simulcast-ssrc-latest" />
-  <meta name="dct.issued" scheme="ISO8601" content="2019-04-11" />
+  <meta name="dct.issued" scheme="ISO8601" content="2019-07-06" />
   <meta name="dct.abstract" content="This document describes a convention for sending &#8220;a=ssrc&#8221; attributes in SDP together with &#8220;a=simulcast&#8221; attributes. This allows SFUs that need SSRC information to have this info easily accessible.Given that it is intended as an interim measure, it does not aim for being published as an RFC." />
   <meta name="description" content="This document describes a convention for sending &#8220;a=ssrc&#8221; attributes in SDP together with &#8220;a=simulcast&#8221; attributes. This allows SFUs that need SSRC information to have this info easily accessible.Given that it is intended as an interim measure, it does not aim for being published as an RFC." />
 
@@ -323,10 +325,10 @@ ul.toc li {
 </tr>
 <tr>
 <td class="left">Intended status: Informational</td>
-<td class="right">April 11, 2019</td>
+<td class="right">July 06, 2019</td>
 </tr>
 <tr>
-<td class="left">Expires: October 13, 2019</td>
+<td class="left">Expires: January 7, 2020</td>
 <td class="right"></td>
 </tr>
 
@@ -344,7 +346,7 @@ ul.toc li {
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on October 13, 2019.</p>
+<p>This Internet-Draft will expire on January 7, 2020.</p>
 <h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
 <p>Copyright (c) 2019 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
 <p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
@@ -378,6 +380,10 @@ ul.toc li {
 </li>
 <li>10.2.   <a href="#rfc.references.2">Informative References</a>
 </li>
+</ul><li><a href="#rfc.change_log">Change log</a>
+</li>
+<ul><li>A.1.   <a href="#rfc.appendix.A.1">Changes from version -00 to -01</a>
+</li>
 </ul><li><a href="#rfc.acknowledgments">Acknowledgments</a>
 </li>
 <li><a href="#rfc.authors">Author's Address</a>
@@ -403,7 +409,7 @@ ul.toc li {
 </h1>
 <p id="rfc.section.3.p.1">The syntax for representing SSRC information is taken from <a href="#RFC5576" class="xref">[RFC5576]</a>.</p>
 <p id="rfc.section.3.p.2">Each media section in the SDP contains one a=ssrc attribute per simulcast stream, formatted as <samp>a=ssrc:&lt;ssrc&gt; cname:&lt;cname&gt;</samp>. The cname is the sender&#8217;s single cname as defined in <a href="#I-D.ietf-rtcweb-rtp-usage" class="xref">[I-D.ietf-rtcweb-rtp-usage]</a>; carrying some attribute is required by the &#8220;a=ssrc&#8221; syntax, and sending the cname is compatible with what has been done in other instances.</p>
-<p id="rfc.section.3.p.3">The list of SSRCs used is declared in an attribute with the FID (Flow Identification) semantic, as defined in <a href="#RFC5888" class="xref">[RFC5888]</a>.</p>
+<p id="rfc.section.3.p.3">The list of SSRCs used is declared in an attribute with the SIM (Simulcast) semantic, which is registered by this memo.</p>
 <p id="rfc.section.3.p.4">The order of SSRCs in the a=ssrc-group attribute MUST match the order of the rid attributes in the corresponding streams in the &#8220;send&#8221; part of the a=simulcast: attribute.</p>
 <p id="rfc.section.3.p.5">It is RECOMMENDED that both the a=rid: attributes and the a=ssrc: attributes appear in the same order as the order in the a=simulcast and a=ssrc-group attributes.</p>
 <p id="rfc.section.3.p.6">It is RECOMMENDED not to use RTX with this configuration, since the inclusion of the required declarations for associating RTX SSRCs with their main SSRCs would make the SDP unwieldy and hard to interpret correctly.</p>
@@ -423,11 +429,11 @@ pc = new RTCPeerConnection({showSsrcInSimulcastOffer: true})
 </pre>
 <p id="rfc.section.4.p.4">It is possible to verify that the request is understood by checking for the presence of this attribute in the RTCPeerConnection parameters:</p>
 <pre>
-if (showSsrcInSimulcastOffer in pc.getConfiguration) {
+if ('showSsrcInSimulcastOffer' in pc.getConfiguration()) {
    // the request has been understood correctly
 }
 </pre>
-<p id="rfc.section.4.p.5">Formally, this amounts to changing the API of a W3C specification, but adding nonstandard attributes to an initialization dictionary has been done before in other contexts; it seems like a relatively harmless thing to do, but should be reviewed in the W3C WEBRTC WG anyway.</p>
+<p id="rfc.section.4.p.5">Formally, this amounts to changing the API of a W3C specification, but adding nonstandard attributes to an initialization dictionary has been done before in other contexts; it seems like a relatively harmless thing to do, but should be reviewed in the W3C WEBRTC WG anyway. Publishing a separate extension document in the W3C seems like bureaucratic overkill.</p>
 <h1 id="rfc.section.5">
 <a href="#rfc.section.5">5.</a> <a href="#example" id="example">Example</a>
 </h1>
@@ -437,7 +443,7 @@ a=simulcast:send hi,mid,low
 a=rid:hi send
 a=rid:mid send
 a=rid:low send
-a=ssrc-group:FID 123 456 789
+a=ssrc-group:SIM 123 456 789
 a=ssrc:123 cname:foo
 a=ssrc:456 cname:foo
 a=ssrc:789 cname:foo
@@ -451,9 +457,8 @@ a=ssrc:789 cname:foo
 <a href="#rfc.section.7">7.</a> <a href="#open-questions" id="open-questions">Open questions</a>
 </h1>
 <p id="rfc.section.7.p.1">NOTE IN DRAFT: The goal is to make this section empty.</p>
-<p id="rfc.section.7.p.2">The SSRC-group &#8220;FID&#8221; was picked because it seemed to have the right semantic, but it&#8217;s not clear what it&#8217;s been used for elsewhere. Chrome has been using the group &#8220;SIM&#8221; without registering it; this might be a better choice.</p>
-<p id="rfc.section.7.p.3">It&#8217;s been suggested that it&#8217;s better to replace the a=ssrc-group: line with new tag fields either on the a=ssrc: lines or the a=rid: lines, thus giving explicit correlation. This, however, breaks the standard format of those lines. Inventing new syntax for an interim solution seems like a Bad Thing.</p>
-<p id="rfc.section.7.p.4">People have asked whether and how this document should be published. If it makes sense to publish it as a historical record, it might make sense to publish as an RFC; it does not make sense to the author to ask for standards track publication. At the moment, it claims that publication is not sought.</p>
+<p id="rfc.section.7.p.2">It&#8217;s been suggested that it&#8217;s better to replace the a=ssrc-group: line with new tag fields either on the a=ssrc: lines or the a=rid: lines, thus giving explicit correlation. This, however, breaks the standard format of those lines. Inventing new syntax for an interim solution seems like a Bad Thing.</p>
+<p id="rfc.section.7.p.3">People have asked whether and how this document should be published. If it makes sense to publish it as a historical record, it might make sense to publish as an RFC; it does not make sense to the author to ask for standards track publication. At the moment, it claims that publication is not sought.</p>
 <h1 id="rfc.section.8">
 <a href="#rfc.section.8">8.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a>
 </h1>
@@ -462,9 +467,28 @@ a=ssrc:789 cname:foo
 <h1 id="rfc.section.9">
 <a href="#rfc.section.9">9.</a> <a href="#iana-considerations" id="iana-considerations">IANA Considerations</a>
 </h1>
-<p id="rfc.section.9.p.1">This document has no IANA actions.</p>
-<p id="rfc.section.9.p.2">If it were to be published, this section would have to request IANA to register the &#8220;please-send-ssrc&#8221; attribute, and if it mints a new group semantic for a=ssrc-group, this will also have to be registered.</p>
-<p id="rfc.section.9.p.3">If the document succeeds in being transitory in nature, registration may not be needed.</p>
+<p id="rfc.section.9.p.1">This document registers the &#8220;SIM&#8221; value of &#8220;ssrc-group&#8221; in the registry titled &#8220;Semantics for the &#8220;ssrc-group&#8221; SDP Attribute&#8221;, according to the procedures of <a href="#RFC5576" class="xref">[RFC5576]</a> section 12.3. That document specifies that registration requires a standards-track document.</p>
+<p></p>
+
+<ul>
+<li>Semantics: Simulcast group</li>
+<li>Token: SIM</li>
+<li>Reference: RFC XXXX</li>
+</ul>
+<p id="rfc.section.9.p.3">This document registers the &#8220;please-send-ssrc&#8221; attribute in the registry titled &#8220;att-field (media level only)&#8221; according to the procedures of <a href="#RFC4566" class="xref">[RFC4566]</a> section 8.2.4. That document specifies that the registry is of type &#8220;specification required&#8221;.</p>
+<p></p>
+
+<ul>
+<li>Contact: Harald Alvestrand, harald@alvestrand.no, +47 73 53 43 26</li>
+<li>Attribute name: please-send-ssrc</li>
+<li>Long-form attribute name: Please send SSRC</li>
+<li>Type of attribute: Media level</li>
+<li>Subject to the charset attribute: No</li>
+<li>Purpose: Indicates that the sender wishes to receive SSRC information in the form specified in RFC XXXX</li>
+<li>Appropriate values: Not relevant</li>
+</ul>
+<p id="rfc.section.9.p.5">RFC Editor: Please replace &#8220;RFC XXXX&#8221; with the RFC number of this document, if published, and delete this paragraph.</p>
+<p id="rfc.section.9.p.6">If the document succeeds in being transitory in nature, registration may not be needed.</p>
 <h1 id="rfc.references">
 <a href="#rfc.references">10.</a> References</h1>
 <h1 id="rfc.references.1">
@@ -491,6 +515,11 @@ a=ssrc:789 cname:foo
 <a>Bradner, S.</a>, "<a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>", BCP 14, RFC 2119, DOI 10.17487/RFC2119, March 1997.</td>
 </tr>
 <tr>
+<td class="reference"><b id="RFC4566">[RFC4566]</b></td>
+<td class="top">
+<a>Handley, M.</a>, <a>Jacobson, V.</a> and <a>C. Perkins</a>, "<a href="https://tools.ietf.org/html/rfc4566">SDP: Session Description Protocol</a>", RFC 4566, DOI 10.17487/RFC4566, July 2006.</td>
+</tr>
+<tr>
 <td class="reference"><b id="RFC5576">[RFC5576]</b></td>
 <td class="top">
 <a>Lennox, J.</a>, <a>Ott, J.</a> and <a>T. Schierl</a>, "<a href="https://tools.ietf.org/html/rfc5576">Source-Specific Media Attributes in the Session Description Protocol (SDP)</a>", RFC 5576, DOI 10.17487/RFC5576, June 2009.</td>
@@ -513,8 +542,19 @@ a=ssrc:789 cname:foo
 <td class="top">
 <a>Perkins, C.</a>, <a>Westerlund, M.</a> and <a>J. Ott</a>, "<a href="https://tools.ietf.org/html/draft-ietf-rtcweb-rtp-usage-26">Web Real-Time Communication (WebRTC): Media Transport and Use of RTP</a>", Internet-Draft draft-ietf-rtcweb-rtp-usage-26, March 2016.</td>
 </tr></tbody></table>
+<h1 id="rfc.change_log"><a href="#rfc.change_log">Change log</a></h1>
+<h1 id="rfc.appendix.A.1">
+<a href="#rfc.appendix.A.1">A.1.</a> <a href="#changes-from-version-00-to-01" id="changes-from-version-00-to-01">Changes from version -00 to -01</a>
+</h1>
+<p></p>
+
+<ul>
+<li>Corrected example JS code</li>
+<li>Changed group semantic name from FID to SIM</li>
+<li>Added IANA registration information for SIM and please-send-ssrc</li>
+</ul>
 <h1 id="rfc.acknowledgments"><a href="#rfc.acknowledgments">Acknowledgments</a></h1>
-<p id="rfc.section.A.p.1">Many thanks to Amit Hilbuch, Adam Roach, Bernard Aboba, Philip Hancke and many others who have given input to the design of this mechanism.</p>
+<p id="rfc.section.B.p.1">Many thanks to Amit Hilbuch, Adam Roach, Bernard Aboba, Philipp Hancke and many others who have given input to the design of this mechanism.</p>
 <h1 id="rfc.authors"><a href="#rfc.authors">Author's Address</a></h1>
 <div class="avoidbreak">
   <address class="vcard">

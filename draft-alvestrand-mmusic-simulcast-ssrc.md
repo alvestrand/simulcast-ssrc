@@ -21,6 +21,7 @@ author:
 
 normative:
   RFC2119:
+  RFC4566:
   RFC5576:
   RFC5888:
   I-D.ietf-avtext-rid:
@@ -82,8 +83,8 @@ cname is the sender's single cname as defined in {{I-D.ietf-rtcweb-rtp-usage}};
 carrying some attribute is required by the "a=ssrc" syntax, and sending the
 cname is compatible with what has been done in other instances.
 
-The list of SSRCs used is declared in an attribute with the FID
-(Flow Identification) semantic, as defined in {{RFC5888}}.
+The list of SSRCs used is declared in an attribute with the SIM
+(Simulcast) semantic, which is registered by this memo.
 
 The order of SSRCs in the a=ssrc-group attribute MUST match the order of the
 rid attributes in the corresponding streams in the "send" part of the
@@ -131,7 +132,8 @@ if ('showSsrcInSimulcastOffer' in pc.getConfiguration()) {
 Formally, this amounts to changing the API of a W3C specification, but adding
 nonstandard attributes to an initialization dictionary has been done before
 in other contexts; it seems like a relatively harmless thing to do, but should
-be reviewed in the W3C WEBRTC WG anyway.
+be reviewed in the W3C WEBRTC WG anyway. Publishing a separate extension
+document in the W3C seems like bureaucratic overkill.
 
 # Example
 
@@ -141,7 +143,7 @@ a=simulcast:send hi,mid,low
 a=rid:hi send
 a=rid:mid send
 a=rid:low send
-a=ssrc-group:FID 123 456 789
+a=ssrc-group:SIM 123 456 789
 a=ssrc:123 cname:foo
 a=ssrc:456 cname:foo
 a=ssrc:789 cname:foo
@@ -159,10 +161,6 @@ Once enough time has passed, this mechanism can be removed.
 # Open questions
 
 NOTE IN DRAFT: The goal is to make this section empty.
-
-The SSRC-group "FID" was picked because it seemed to have the right semantic,
-but it's not clear what it's been used for elsewhere. Chrome has been using
-the group "SIM" without registering it; this might be a better choice.
 
 It's been suggested that it's better to replace the a=ssrc-group: line with
 new tag fields either on the a=ssrc: lines or the a=rid: lines, thus giving
@@ -187,16 +185,45 @@ things up"; normal precautions when passing SDP around should be adequate.
 
 # IANA Considerations
 
-This document has no IANA actions.
+This document registers the "SIM" value of "ssrc-group" in the registry
+titled "Semantics for the "ssrc-group" SDP Attribute", according to the
+procedures of {{RFC5576}} section 12.3. That document specifies that
+registration requires a standards-track document.
 
-If it were to be published, this section would have to request IANA to
-register the "please-send-ssrc" attribute, and if it mints a new group
-semantic for a=ssrc-group, this will also have to be registered.
+* Semantics: Simulcast group
+* Token: SIM
+* Reference: RFC XXXX
+
+This document registers the "please-send-ssrc" attribute in the registry
+titled "att-field (media level only)" according to the procedures of
+{{RFC4566}} section 8.2.4. That document specifies that the registry is
+of type "specification required".
+
+- Contact: Harald Alvestrand, harald@alvestrand.no, +47 73 53 43 26
+- Attribute name: please-send-ssrc
+- Long-form attribute name: Please send SSRC
+- Type of attribute: Media level
+- Subject to the charset attribute: No
+- Purpose: Indicates that the sender wishes to receive SSRC information
+  in the form specified in RFC XXXX
+- Appropriate values: Not relevant
+
+RFC Editor: Please replace "RFC XXXX" with the RFC number of this document,
+if published, and delete this paragraph.
 
 If the document succeeds in being transitory in nature, registration
 may not be needed.
 
 --- back
+
+# Change log
+{:numbered="false"}
+
+## Changes from version -00 to -01
+
+* Corrected example JS code
+* Changed group semantic name from FID to SIM
+* Added IANA registration information for SIM and please-send-ssrc
 
 # Acknowledgments
 {:numbered="false"}
